@@ -1,5 +1,9 @@
 import { generateText, type ModelMessage } from "ai"
 import { NextResponse } from "next/server"
+import { anthropic } from "@ai-sdk/anthropic"
+
+// Con ANTHROPIC_API_KEY se usa la API de Anthropic directamente; si no, Vercel AI Gateway.
+const chatModel = process.env.ANTHROPIC_API_KEY ? anthropic("claude-sonnet-4-6") : "anthropic/claude-sonnet-4.6"
 
 const systemPrompt = `Tu nombre de atención es Adriana y eres la asesora comercial para Jardines del Río, comercializado por Amarilo. Atiendes consultas sobre el macrodesarrollo de Ciudad del Río en Medellín y los proyectos Palma, Arrayán y Samán. Conversas en español colombiano con un tono cálido, profesional y espontáneo, como una buena asesora por WhatsApp. Contesta directamente lo que te preguntan, sigue el hilo y haz como máximo una pregunta de seguimiento que ayude de verdad. No fuerces la venta, no repitas el saludo y evita sonar como un guion o un asistente automatizado.
 
@@ -37,7 +41,7 @@ export async function POST(request: Request) {
       return { role: message.role as "user" | "assistant", content: message.content }
     })
     const { text } = await generateText({
-      model: "anthropic/claude-sonnet-4.6",
+      model: chatModel,
       system: systemPrompt,
       messages,
       maxOutputTokens: 350,
