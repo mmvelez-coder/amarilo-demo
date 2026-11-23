@@ -1,24 +1,13 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Playfair_Display, Red_Rose } from "next/font/google"
+import { Montserrat } from "next/font/google"
 import "./globals.css"
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-inter",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-playfair",
-})
-
-const redRose = Red_Rose({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-red-rose",
+  variable: "--font-montserrat",
 })
 
 export const metadata: Metadata = {
@@ -28,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  themeColor: "#f6f7f4",
+  themeColor: "#160B29",
 }
 
 export default function RootLayout({
@@ -37,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} ${playfair.variable} ${redRose.variable} antialiased`}>
+    <html lang="es" className={`${montserrat.variable} antialiased`}>
       <body className="font-sans">{children}</body>
     </html>
   )
