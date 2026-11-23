@@ -7,7 +7,7 @@ type Message = { id: string; content: string; isBot: boolean; timestamp: string 
 
 const officialUrl = "https://amarilo.com.co/grandes-desarrollos/jardines-del-rio"
 const smDigitalLogoUrl = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-smdigital-color-pU333YCUDSP4WRRP9Bd9PuWgB8w5Kr.png"
-const starterQuestions = ["¿Qué proyectos hay y en qué se diferencian?", "¿Cuánto cuesta un apartamento?", "¿Me compartes el brochure?"]
+const starterQuestions = ["¿Qué tiene de especial Palma?", "¿Cuánto cuesta un apartamento en Palma?", "¿Es buena inversión en Ciudad del Río?"]
 const projects = [
   { name: "Palma", price: "Desde $1.429,5 M", area: "Desde 103 m²", detail: "2 torres · 229 hogares", note: "Los apartamentos más amplios de la zona", url: "https://amarilo.com.co/proyecto/palma" },
   { name: "Arrayán", price: "Desde $575 M", area: "Desde 30 m²", detail: "1 torre · 216 hogares", note: "Habilitado para rentas cortas", url: "https://amarilo.com.co/proyecto/arrayan" },
@@ -38,7 +38,7 @@ function formatMessage(content: string) {
 const fallbackMessage = "Se me cayó la conexión un momento. ¿Me repites tu pregunta? Si prefieres, puedes consultar la información oficial en https://amarilo.com.co/grandes-desarrollos/jardines-del-rio o llamar al **601 634 0000**."
 
 export function WhatsAppDemo() {
-  const [messages, setMessages] = useState<Message[]>([{ id: "welcome", content: "¡Hola! Soy **Adriana**, tu asesora comercial para Jardines del Río.\n\nCuéntame, ¿estás buscando un lugar para vivir o estás explorando opciones de inversión? Si ya tienes en mente **Palma, Arrayán o Samán**, con gusto te cuento qué ofrece cada uno.", isBot: true, timestamp: "Ahora" }])
+  const [messages, setMessages] = useState<Message[]>([{ id: "welcome", content: "¡Hola! Qué bueno tenerte por acá 😊 Soy **Adriana**, de Amarilo.\n\nTe cuento de **Palma**, en Ciudad del Río: los apartamentos más amplios del sector, a pasos del parque y del MAMM. ¿Lo estás mirando para vivir o como inversión?", isBot: true, timestamp: "Ahora" }])
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const chatRef = useRef<HTMLDivElement>(null)
@@ -56,7 +56,7 @@ export function WhatsAppDemo() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages.slice(-12).map(({ content, isBot }) => ({ role: isBot ? "assistant" : "user", content })) }),
+        body: JSON.stringify({ messages: nextMessages.slice(-24).map(({ content, isBot }) => ({ role: isBot ? "assistant" : "user", content })) }),
       })
       const data = await response.json()
       if (!response.ok || typeof data.text !== "string") throw new Error("No se pudo generar la respuesta")
@@ -107,7 +107,7 @@ export function WhatsAppDemo() {
                   <div className="flex h-[560px] flex-col overflow-hidden rounded-[36px] bg-[#efeae2]">
                     <div className="flex items-center gap-3 bg-[#160B29] px-4 pb-3 pt-9 text-white">
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FFC900] text-sm font-bold text-[#160B29]" aria-hidden="true">A</div>
-                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">Adriana · Jardines del Río</p><p className="text-[11px] text-white/70">Asesora comercial · en línea</p></div>
+                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">Adriana · Palma Amarilo</p><p className="text-[11px] text-white/70">Asesora comercial · en línea</p></div>
                       <Video className="h-[18px] w-[18px]" aria-hidden="true" /><Phone className="h-[18px] w-[18px]" aria-hidden="true" /><MoreVertical className="h-[18px] w-[18px]" aria-hidden="true" />
                     </div>
                     <div className="flex items-center justify-center gap-1.5 bg-[#FFF6D1] px-3 py-2 text-[10px] text-[#4D4D4D]"><ShieldCheck className="h-3 w-3" /> Tus datos y esta conversación son privados</div>
@@ -118,7 +118,7 @@ export function WhatsAppDemo() {
                       {messages.length === 1 && <div className="space-y-1.5 pt-2">{starterQuestions.map((question) => <button key={question} type="button" onClick={() => void sendMessage(question)} className="block w-fit max-w-[94%] rounded-full border border-[#160B29] bg-white px-3.5 py-2 text-left text-[11px] font-semibold leading-4 text-[#160B29] transition hover:bg-[#FFC900] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC900]">{question}</button>)}</div>}
                     </div>
                     <form onSubmit={handleSubmit} className="flex items-center gap-2 bg-[#F0F0F1] px-3 py-2.5">
-                      <button type="button" aria-label="Pedir brochure" onClick={() => void sendMessage("¿Me compartes el brochure de Jardines del Río?")} className="grid h-9 w-8 place-items-center text-[#4D4D4D] hover:text-[#160B29]"><FileText className="h-[18px] w-[18px]" /></button>
+                      <button type="button" aria-label="Pedir brochure" onClick={() => void sendMessage("¿Me compartes el brochure de Palma?")} className="grid h-9 w-8 place-items-center text-[#4D4D4D] hover:text-[#160B29]"><FileText className="h-[18px] w-[18px]" /></button>
                       <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter" && (event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault() }} placeholder="Escribe un mensaje" aria-label="Escribe un mensaje" className="h-10 min-w-0 flex-1 rounded-full bg-white px-4 text-xs text-[#160B29] outline-none placeholder:text-[#747474] focus-visible:ring-2 focus-visible:ring-[#FFC900]" disabled={isTyping} />
                       <button type="submit" disabled={!inputValue.trim() || isTyping} aria-label="Enviar mensaje" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#FFC900] text-[#160B29] transition hover:bg-[#ffd633] disabled:opacity-50"><Send className="h-4 w-4" /></button>
                     </form>
